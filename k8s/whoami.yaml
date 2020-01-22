@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: whoami
+  name: whoami
+spec:
+  replicas: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: whoami
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+      - image: localhost:32000/whoami:3.6
+        name: whoami
+        ports:
+        - containerPort: 8000
+        resources: {}
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: whoami
+  name: whoami
+spec:
+  type: LoadBalancer
+  ports:
+  - name: whoami
+    nodePort: 30001
+    port: 8000
+    targetPort: 8000
+  selector:
+    app: whoami
+status:
+  loadBalancer: {}

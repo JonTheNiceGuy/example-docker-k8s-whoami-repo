@@ -1,0 +1,16 @@
+version: '3'
+services:
+  whoami36:
+    build:
+      context: whoami-3.6
+      dockerfile: Dockerfile
+    image: localhost:32000/whoami:3.6
+    expose:
+      - 8000
+  whoami310:
+    build:
+      context: whoami-3.10
+      dockerfile: Dockerfile
+    image: localhost:32000/whoami:3.10
+    expose:
+      - 8000
